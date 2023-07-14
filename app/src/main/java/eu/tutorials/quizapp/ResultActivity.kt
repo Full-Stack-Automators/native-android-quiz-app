@@ -15,8 +15,8 @@ class ResultActivity : AppCompatActivity() {
 
        //Todo: connect to each view in the layout through its id
         val tvName: TextView = findViewById(R.id.tv_name)
-        val tvScore:TextView = findViewById(R.id.tv_score)
-        val btnFinish:Button = findViewById(R.id.btn_finish)
+        val tvScore: TextView = findViewById(R.id.tv_score)
+        val btnFinish: Button = findViewById(R.id.btn_finish)
 
         val userName = intent.getStringExtra(Constants.USER_NAME)
         tvName.text = userName
