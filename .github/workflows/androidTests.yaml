@@ -33,7 +33,7 @@ jobs:
           ram-size: 1500M
           heap-size: 2000M
           disk-size: 5000M
-          emulator-boot-timeout: 1200
+          emulator-boot-timeout: 12000
           script: ./gradlew connectedCheck --stacktrace
 
       - name: Upload Reports
