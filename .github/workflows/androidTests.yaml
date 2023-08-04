@@ -17,8 +17,37 @@ jobs:
           distribution: 'adopt'
           cache: 'gradle'
 
-      - name: Build the app
-        run: ./gradlew assembleDebug --stacktrace
+      #Test cache
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-33
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          target: google_apis
+          arch: x86_64
+          disable-animations: false
+          ram-size: 1500M
+          heap-size: 2000M
+          disk-size: 5000M
+          script: echo "Generated AVD snapshot for caching."
+      #Test cache
+
+#      - name: Build the app
+#        run: ./gradlew assembleDebug --stacktrace
 
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
@@ -27,18 +56,20 @@ jobs:
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 33
+          force-avd-creation: false #Test cache
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Test cache
           target: google_apis
           arch: x86_64
           disable-animations: true
           ram-size: 1500M
           heap-size: 2000M
           disk-size: 5000M
-          emulator-boot-timeout: 1200
+#          emulator-boot-timeout: 1200
           script: ./gradlew connectedCheck --stacktrace
 
       - name: Upload Reports
         uses: actions/upload-artifact@v3
-        #if: failure()
+#        if: failure()
         with:
           name: Test-Reports
           path: app/build/reports
