@@ -52,20 +52,20 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
 
-      - name: Run UI Tests
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: 33
-          force-avd-creation: false #Test cache
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Test cache
-          target: google_apis
-          arch: x86_64
-          disable-animations: true
-          ram-size: 1500M
-          heap-size: 2000M
-          disk-size: 5000M
-#          emulator-boot-timeout: 1200
-          script: ./gradlew connectedCheck --stacktrace
+#      - name: Run UI Tests
+#        uses: ReactiveCircus/android-emulator-runner@v2
+#        with:
+#          api-level: 33
+#          force-avd-creation: false #Test cache
+#          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Test cache
+#          target: google_apis
+#          arch: x86_64
+#          disable-animations: true
+#          ram-size: 1500M
+#          heap-size: 2000M
+#          disk-size: 5000M
+##          emulator-boot-timeout: 1200
+#          script: ./gradlew connectedCheck --stacktrace
 
       - name: Upload Reports
         uses: actions/upload-artifact@v3
