@@ -44,6 +44,9 @@ jobs:
           disk-size: 5000M
           script: echo "Generated AVD snapshot for caching."
 
+      - name: Build the app
+        run: ./gradlew assembleDebug --stacktrace
+
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
 
