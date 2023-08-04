@@ -26,14 +26,14 @@ jobs:
       - name: Run UI Tests
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
-          api-level: 32
+          api-level: 31
           target: google_apis
-          arch: x86
+          arch: x86_64
           disable-animations: true
           ram-size: 1500M
           heap-size: 2000M
           disk-size: 5000M
-          emulator-boot-timeout: 1500
+          emulator-boot-timeout: 1200
           script: ./gradlew connectedCheck --stacktrace
 
       - name: Upload Reports
