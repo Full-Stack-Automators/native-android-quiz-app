@@ -27,7 +27,6 @@ jobs:
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 33
-          target: google_apis
           arch: x86_64
           disable-animations: true
           ram-size: 1500M
