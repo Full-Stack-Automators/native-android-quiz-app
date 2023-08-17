@@ -66,4 +66,4 @@ jobs:
         if: always()
         with:
           name: Test-Reports
-          path: app/build/reports/androidTests/connected/index.html
+          path: app/build/reports
