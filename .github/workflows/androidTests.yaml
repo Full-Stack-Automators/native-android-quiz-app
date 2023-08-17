@@ -71,5 +71,5 @@ jobs:
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: app/build/reports/androidTests/tests # The folder the action should deploy.
+          folder: app/build/reports/tests # The folder the action should deploy.
           branch: github-pages # Branch to deploy pages to
