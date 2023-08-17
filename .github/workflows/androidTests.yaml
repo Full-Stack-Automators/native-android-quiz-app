@@ -37,4 +37,4 @@ jobs:
 #        if: failure()
         with:
           name: Test-Reports
-          path: app/build/reports
+          path: app/build/reports/androidTests/connected/index.html
