@@ -83,4 +83,5 @@ jobs:
           # For posting a simple plain text message
           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
-          SLACK_BOT_TOKEN: "xoxe.xoxp-1-Mi0yLTU1OTA5NDE4NjUyMzItNTU3OTkyNDM3MjM1My01NzY0NjExNDE3ODc0LTU3ODgzMTQ2NjM4MDgtNzNiYzI5OWJlMDhjYjk3ZjM3MzI2ZGM5ZDEzNDY0ZTY1YTU0NGUxMDZmN2JkZjQ4YWY2Njk1ZmVkN2RhZmNhNQ"
+          SLACK_BOT_TOKEN: "xoxb-5590941865232-5761865217717-CsDYmRXl9IImvLqBnO9PZdZk
+"
