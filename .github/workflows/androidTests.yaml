@@ -70,6 +70,7 @@ jobs:
 
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
+        if: always()
         with:
-          folder: app/build/reports/tests # The folder the action should deploy.
+          folder: app/build/reports/tests/testDebugUnitTest # The folder the action should deploy.
           branch: github-pages # Branch to deploy pages to
