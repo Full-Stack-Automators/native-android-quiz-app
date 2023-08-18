@@ -1,1 +1,0 @@
-# native-android-quiz-app
