@@ -17,13 +17,42 @@ jobs:
           distribution: 'adopt'
           cache: 'gradle'
 
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-31
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          target: google_apis
+          arch: x86_64
+          disable-animations: false
+          ram-size: 1500M
+          heap-size: 2000M
+          disk-size: 5000M
+          script: echo "Generated AVD snapshot for caching."
+
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
 
       - name: Run UI Tests
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
-          api-level: 33
+          api-level: 31
+          force-avd-creation: false #Cache
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
           target: google_apis
           arch: x86_64
           disable-animations: true
@@ -34,7 +63,14 @@ jobs:
 
       - name: Upload Reports
         uses: actions/upload-artifact@v3
-#        if: failure()
+        if: always()
         with:
           name: Test-Reports
           path: app/build/reports
+
+      - name: Deploy Test Results to Github pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        if: always()
+        with:
+          folder: app/build/reports/androidTests/connected # The folder the action should deploy.
+          branch: github-pages # Branch to deploy pages to
