@@ -50,7 +50,7 @@ jobs:
       - name: Run UI Tests
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
-          api-level: 33
+          api-level: 31
 #          force-avd-creation: false #Cache
 #          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
           target: google_apis
