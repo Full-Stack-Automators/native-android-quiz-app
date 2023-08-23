@@ -81,6 +81,7 @@ jobs:
         with:
           channel-id: 'C05NJ1GK5V2' #espresso-testrun channel
           # For posting a simple plain text message
-          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+          slack-message: "Android UI Test result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT }}
+          PULL_REQUEST_URL: ${{ github.event.pull_request.html_url }}
