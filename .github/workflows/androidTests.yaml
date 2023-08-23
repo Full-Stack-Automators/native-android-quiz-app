@@ -78,10 +78,10 @@ jobs:
       - name: Post Android Test results to Slack channel (espresso-testruns)
         uses: rtCamp/action-slack-notify@v2
         if: always()
-          env:
-            SLACK_CHANNEL: espresso-testruns
-            SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-            SLACK_TITLE: Android Tests results
-            SLACK_MESSAGE: ${{ job.status }}
-            SLACK_FOOTER: 'Latest UI Test Results:' ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        env:
+          SLACK_CHANNEL: espresso-testruns
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_TITLE: Android Tests results
+          SLACK_MESSAGE: ${{ job.status }}
+          SLACK_FOOTER: 'Latest UI Test Results:' ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
