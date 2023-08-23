@@ -16,7 +16,7 @@ jobs:
 #          java-version: 11
 #          distribution: 'adopt'
 #          cache: 'gradle'
-
+#
 #      - name: Gradle cache
 #        uses: gradle/gradle-build-action@v2
 #
@@ -75,18 +75,6 @@ jobs:
 #          folder: app/build/reports/androidTests/connected # The folder the action should deploy.
 #          branch: github-pages # Branch to deploy pages to
 
-#      - name: Post to a Slack channel
-#        id: slack
-#        uses: slackapi/slack-github-action@v1.24.0
-#        if: always()
-#        with:
-#          channel-id: 'C05NJ1GK5V2' #espresso-testrun channel
-#          # For posting a simple plain text message
-#          slack-message: "Android UI Test result: ${{ job.status }} \n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-#        env:
-#          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT }}
-#          PULL_REQUEST_URL: ${{ github.event.pull_request.html_url }}
-
       - name: Post Android Test results to Slack channel (espresso-testruns)
         uses: rtCamp/action-slack-notify@v2
         if: always()
@@ -95,5 +83,5 @@ jobs:
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_TITLE: Android Tests results
           SLACK_MESSAGE: ${{ job.status }}
-          SLACK_FOOTER: 'Latest UI Test Results: https://full-stack-automators.github.io/native-android-quiz-app'
+          SLACK_FOOTER: 'Latest UI Test Results:' ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
