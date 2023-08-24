@@ -82,6 +82,6 @@ jobs:
           SLACK_CHANNEL: espresso-testruns
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_TITLE: Android Tests results
-          SLACK_MESSAGE: ${{ job.status }} \n ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          SLACK_FOOTER: Latest UI Test Results ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
+          SLACK_MESSAGE: ${{ job.status }} - ${{ vars.CURRENT_TEST_RESULTS_URL }}
+          SLACK_FOOTER: Latest UI Test Results - ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
