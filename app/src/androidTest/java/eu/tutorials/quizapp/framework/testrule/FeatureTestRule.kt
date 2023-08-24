@@ -22,6 +22,5 @@ class FeatureTestRule : TestRule {
 
     private fun setup() {
         activityRule.launchActivity(Intent())
-        Thread.sleep(10000) //Test error - androidx.test.espresso.base.RootViewPicker$RootViewWithoutFocusException: Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds
     }
 }

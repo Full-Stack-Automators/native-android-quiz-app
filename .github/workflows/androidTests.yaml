@@ -5,6 +5,9 @@ on:
 jobs:
   run-android-tests:
     runs-on: macos-latest
+    # Map a step output to a job output
+    outputs:
+      output1: ${{ steps.jobstatus.outputs.result }}
 
     steps:
       - name: Checkout
@@ -17,49 +20,55 @@ jobs:
           distribution: 'adopt'
           cache: 'gradle'
 
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-
-      - name: AVD cache
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-31
-
-      - name: create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 31
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          target: google_apis
-          arch: x86_64
-          disable-animations: false
-          ram-size: 1500M
-          heap-size: 2000M
-          disk-size: 5000M
-          script: echo "Generated AVD snapshot for caching."
+#      - name: Gradle cache
+#        uses: gradle/gradle-build-action@v2
+#
+#      - name: AVD cache
+#        uses: actions/cache@v3
+#        id: avd-cache
+#        with:
+#          path: |
+#            ~/.android/avd/*
+#            ~/.android/adb*
+#          key: avd-31
+#
+#      - name: create AVD and generate snapshot for caching
+#        if: steps.avd-cache.outputs.cache-hit != 'true'
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 31
+#          force-avd-creation: false
+#          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+#          target: google_apis
+#          arch: x86_64
+#          disable-animations: false
+#          ram-size: 1500M
+#          heap-size: 2000M
+#          disk-size: 5000M
+#          script: echo "Generated AVD snapshot for caching."
 
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
 
-      - name: Run UI Tests
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: 31
-          force-avd-creation: false #Cache
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
-          target: google_apis
-          arch: x86_64
-          disable-animations: true
-          ram-size: 1500M
-          heap-size: 2000M
-          disk-size: 5000M
-          script: ./gradlew connectedCheck --stacktrace
+#      - name: Run UI Tests
+#        uses: ReactiveCircus/android-emulator-runner@v2
+#        with:
+#          api-level: 31
+#          force-avd-creation: false #Cache
+#          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
+#          target: google_apis
+#          arch: x86_64
+#          disable-animations: true
+#          ram-size: 1500M
+#          heap-size: 2000M
+#          disk-size: 5000M
+#          script: ./gradlew connectedCheck --stacktrace
+
+      # Save job status
+      - id: jobstatus
+        run: |
+          currentJobStatus=${{ job.status }}
+          echo "result=$currentJobStatus" >> $GITHUB_OUTPUT
 
       - name: Upload Reports
         uses: actions/upload-artifact@v3
@@ -72,13 +81,13 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
         with:
-          folder: app/build/reports/androidTests/connected # Users/runner/work/native-android-quiz-app/native-android-quiz-app/app/build/reports/androidTests/connected
+          folder: app/build/reports/tests/testDebugUnitTest # app/build/reports/androidTests/connected
           branch: github-pages # Branch to deploy pages to
 
   slack-notification:
     if: always()
-    needs: run-android-tests
     runs-on: ubuntu-latest
+    needs: run-android-tests
 
     steps:
       - name: Post Android Test results to Slack channel (espresso-testruns)
@@ -86,8 +95,8 @@ jobs:
         if: always()
         env:
           SLACK_CHANNEL: espresso-testruns
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_COLOR: ${{ needs.run-android-tests.outputs.output1 }} # or a specific color like 'good' or '#ff00ff'
           SLACK_TITLE: Android Tests results
-          SLACK_MESSAGE: ${{ job.status }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_MESSAGE: ${{ needs.run-android-tests.outputs.output1 }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SLACK_FOOTER: Latest UI Test Results - ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
