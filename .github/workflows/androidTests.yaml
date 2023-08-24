@@ -67,7 +67,7 @@ jobs:
       # Save job status
       - id: jobstatus
         run: |
-          currentJobStatus=fail
+          currentJobStatus=${{ job.status }}
           echo "result=$currentJobStatus" >> $GITHUB_OUTPUT
 
       - name: Upload Reports
