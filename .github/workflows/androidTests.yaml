@@ -68,23 +68,23 @@ jobs:
           name: Test-Reports
           path: app/build/reports
 
-  push-test-results:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Test Results to Github pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        if: always()
-        with:
-          folder: app/build/reports/androidTests/connected # The folder the action should deploy.
-          branch: github-pages # Branch to deploy pages to
+    push-test-results:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy Test Results to Github pages 🚀
+          uses: JamesIves/github-pages-deploy-action@v4
+          if: always()
+          with:
+            folder: app/build/reports/androidTests/connected # The folder the action should deploy.
+            branch: github-pages # Branch to deploy pages to
 
-      - name: Post Android Test results to Slack channel (espresso-testruns)
-        uses: rtCamp/action-slack-notify@v2
-        if: always()
-        env:
-          SLACK_CHANNEL: espresso-testruns
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_TITLE: Android Tests results
-          SLACK_MESSAGE: ${{ job.status }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          SLACK_FOOTER: Latest UI Test Results - ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        - name: Post Android Test results to Slack channel (espresso-testruns)
+          uses: rtCamp/action-slack-notify@v2
+          if: always()
+          env:
+            SLACK_CHANNEL: espresso-testruns
+            SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+            SLACK_TITLE: Android Tests results
+            SLACK_MESSAGE: ${{ job.status }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            SLACK_FOOTER: Latest UI Test Results - ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
