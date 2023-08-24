@@ -72,7 +72,11 @@ jobs:
     if: always()
     needs: connected-tests
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
