@@ -4,7 +4,7 @@ on:
 
 jobs:
   run-android-tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
       output1: ${{ steps.jobstatus.outputs.result }}
@@ -67,7 +67,7 @@ jobs:
       # Save job status
       - id: jobstatus
         run: |
-          currentJobStatus=${{ job.status }}
+          currentJobStatus=fail
           echo "result=$currentJobStatus" >> $GITHUB_OUTPUT
 
       - name: Upload Reports
