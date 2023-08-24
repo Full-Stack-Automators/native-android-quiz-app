@@ -7,73 +7,73 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: 11
-          distribution: 'adopt'
-          cache: 'gradle'
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-
-      - name: AVD cache
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-31
-
-      - name: create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 31
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          target: google_apis
-          arch: x86_64
-          disable-animations: false
-          ram-size: 1500M
-          heap-size: 2000M
-          disk-size: 5000M
-          script: echo "Generated AVD snapshot for caching."
-
-      - name: Run Unit Tests
-        run: ./gradlew test --stacktrace
-
-      - name: Run UI Tests
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: 31
-          force-avd-creation: false #Cache
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
-          target: google_apis
-          arch: x86_64
-          disable-animations: true
-          ram-size: 1500M
-          heap-size: 2000M
-          disk-size: 5000M
-          script: ./gradlew connectedCheck --stacktrace
-
-      - name: Upload Reports
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: Test-Reports
-          path: app/build/reports
-
-      - name: Deploy Test Results to Github pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        if: always()
-        with:
-          folder: app/build/reports/androidTests/connected # The folder the action should deploy.
-          branch: github-pages # Branch to deploy pages to
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: 11
+#          distribution: 'adopt'
+#          cache: 'gradle'
+#
+#      - name: Gradle cache
+#        uses: gradle/gradle-build-action@v2
+#
+#      - name: AVD cache
+#        uses: actions/cache@v3
+#        id: avd-cache
+#        with:
+#          path: |
+#            ~/.android/avd/*
+#            ~/.android/adb*
+#          key: avd-31
+#
+#      - name: create AVD and generate snapshot for caching
+#        if: steps.avd-cache.outputs.cache-hit != 'true'
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 31
+#          force-avd-creation: false
+#          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+#          target: google_apis
+#          arch: x86_64
+#          disable-animations: false
+#          ram-size: 1500M
+#          heap-size: 2000M
+#          disk-size: 5000M
+#          script: echo "Generated AVD snapshot for caching."
+#
+#      - name: Run Unit Tests
+#        run: ./gradlew test --stacktrace
+#
+#      - name: Run UI Tests
+#        uses: ReactiveCircus/android-emulator-runner@v2
+#        with:
+#          api-level: 31
+#          force-avd-creation: false #Cache
+#          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
+#          target: google_apis
+#          arch: x86_64
+#          disable-animations: true
+#          ram-size: 1500M
+#          heap-size: 2000M
+#          disk-size: 5000M
+#          script: ./gradlew connectedCheck --stacktrace
+#
+#      - name: Upload Reports
+#        uses: actions/upload-artifact@v3
+#        if: always()
+#        with:
+#          name: Test-Reports
+#          path: app/build/reports
+#
+#      - name: Deploy Test Results to Github pages 🚀
+#        uses: JamesIves/github-pages-deploy-action@v4
+#        if: always()
+#        with:
+#          folder: app/build/reports/androidTests/connected # The folder the action should deploy.
+#          branch: github-pages # Branch to deploy pages to
 
       - name: Post Android Test results to Slack channel (espresso-testruns)
         uses: rtCamp/action-slack-notify@v2
@@ -82,6 +82,6 @@ jobs:
           SLACK_CHANNEL: espresso-testruns
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_TITLE: Android Tests results
-          SLACK_MESSAGE: ${{ job.status }}
+          SLACK_MESSAGE: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ${{ job.status }}
           SLACK_FOOTER: 'Latest UI Test Results: https://full-stack-automators.github.io/native-android-quiz-app' #${{ vars.ESPRESSO_TEST_RESULTS_URL }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
