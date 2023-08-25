@@ -65,6 +65,7 @@ jobs:
 
       # Save job status
       - id: savedJobstatus
+        if: always()
         run: |
           currentJobStatus=${{ job.status }}
           echo "result=$currentJobStatus" >> $GITHUB_OUTPUT
