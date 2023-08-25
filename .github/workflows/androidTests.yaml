@@ -99,9 +99,9 @@ jobs:
           name: Unit-Test-Reports
           path: app/build/reports/tests/testDebugUnitTest
 
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: app/build/reports/tests/testDebugUnitTest
+#      - name: Display structure of downloaded files
+#        run: ls -R
+#        working-directory: app/build/reports/tests/testDebugUnitTest
 
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
