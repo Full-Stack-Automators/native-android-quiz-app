@@ -4,8 +4,7 @@ on:
 
 jobs:
   run-android-tests:
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
+    runs-on: macos-latest
     outputs:
       jobstatus: ${{ steps.savedJobstatus.outputs.result }}
 
@@ -20,49 +19,49 @@ jobs:
           distribution: 'adopt'
           cache: 'gradle'
 
-#      - name: Gradle cache
-#        uses: gradle/gradle-build-action@v2
-#
-#      - name: AVD cache
-#        uses: actions/cache@v3
-#        id: avd-cache
-#        with:
-#          path: |
-#            ~/.android/avd/*
-#            ~/.android/adb*
-#          key: avd-31
-#
-#      - name: create AVD and generate snapshot for caching
-#        if: steps.avd-cache.outputs.cache-hit != 'true'
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 31
-#          force-avd-creation: false
-#          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-#          target: google_apis
-#          arch: x86_64
-#          disable-animations: false
-#          ram-size: 1500M
-#          heap-size: 2000M
-#          disk-size: 5000M
-#          script: echo "Generated AVD snapshot for caching."
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-31
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          target: google_apis
+          arch: x86_64
+          disable-animations: false
+          ram-size: 1500M
+          heap-size: 2000M
+          disk-size: 5000M
+          script: echo "Generated AVD snapshot for caching."
 
       - name: Run Unit Tests
         run: ./gradlew test --stacktrace
 
-#      - name: Run UI Tests
-#        uses: ReactiveCircus/android-emulator-runner@v2
-#        with:
-#          api-level: 31
-#          force-avd-creation: false #Cache
-#          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
-#          target: google_apis
-#          arch: x86_64
-#          disable-animations: true
-#          ram-size: 1500M
-#          heap-size: 2000M
-#          disk-size: 5000M
-#          script: ./gradlew connectedCheck --stacktrace
+      - name: Run UI Tests
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          force-avd-creation: false #Cache
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none #Cache
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          ram-size: 1500M
+          heap-size: 2000M
+          disk-size: 5000M
+          script: ./gradlew connectedCheck --stacktrace
 
       # Save job status
       - id: savedJobstatus
@@ -70,22 +69,21 @@ jobs:
           currentJobStatus=${{ job.status }}
           echo "result=$currentJobStatus" >> $GITHUB_OUTPUT
 
-      - name: Upload Reports
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: Test-Reports
-          path: app/build/reports
-
-      #Upload unittest report
       - name: Upload Unit Test Reports
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: Unit-Test-Reports
-          path: app/build/reports/tests/testDebugUnitTest
+          name: Unit-Test-Report
+          path: app/build/reports/tests
 
-  slack-notification:
+      - name: Upload UI Test Reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: UI-Test-Report
+          path: app/build/reports/androidTests/connected
+
+  publish-android-test-results:
     if: always()
     runs-on: ubuntu-latest
     needs: run-android-tests
@@ -94,18 +92,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download UnitTest Report
       - uses: actions/download-artifact@v3
         with:
-          name: Unit-Test-Reports
-          path: app/build/reports/tests/testDebugUnitTest
+          name: UI-Test-Report
+          path: app/build/reports/androidTests/connected
 
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
         with:
-          folder: app/build/reports/tests/testDebugUnitTest # app/build/reports/androidTests/connected
-          branch: github-pages # Branch to deploy pages to
+          folder: app/build/reports/androidTests/connected
+          branch: github-pages # Branch name to deploy pages
 
       - name: Post Android Test results to Slack channel (espresso-testruns)
         uses: rtCamp/action-slack-notify@v2
