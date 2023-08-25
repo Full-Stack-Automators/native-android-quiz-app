@@ -91,8 +91,6 @@ jobs:
     needs: run-android-tests
 
     steps:
-      - uses: actions/checkout@v3
-
       - name: Download Unit test report
       - uses: actions/download-artifact@v3
         with:
@@ -100,8 +98,8 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest
 
       - name: Display structure of downloaded files
-       run: ls -R
-       working-directory: app/build/reports/tests/testDebugUnitTest
+        run: ls -R
+        working-directory: app/build/reports/tests/testDebugUnitTest
 
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
