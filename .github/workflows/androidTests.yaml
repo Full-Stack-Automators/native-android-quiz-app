@@ -77,12 +77,13 @@ jobs:
           name: Test-Reports
           path: app/build/reports
 
-      - name: Deploy Test Results to Github pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      #Upload unittest report
+      - name: Upload Reports
+        uses: actions/upload-artifact@v3
         if: always()
         with:
-          folder: app/build/reports/tests/testDebugUnitTest # app/build/reports/androidTests/connected
-          branch: github-pages # Branch to deploy pages to
+          name: Unit-Test-Reports
+          path: app/build/reports/tests/testDebugUnitTest
 
   slack-notification:
     if: always()
@@ -90,6 +91,22 @@ jobs:
     needs: run-android-tests
 
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: Unit-Test-Reports
+          path: app/build/reports/tests/testDebugUnitTest
+
+      - name: Display structure of downloaded files
+       run: ls -R
+       working-directory: app/build/reports/tests/testDebugUnitTest
+
+      - name: Deploy Test Results to Github pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        if: always()
+        with:
+          folder: app/build/reports/tests/testDebugUnitTest # app/build/reports/androidTests/connected
+          branch: github-pages # Branch to deploy pages to
+
       - name: Post Android Test results to Slack channel (espresso-testruns)
         uses: rtCamp/action-slack-notify@v2
         if: always()
