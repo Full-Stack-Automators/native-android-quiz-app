@@ -91,7 +91,7 @@ jobs:
     needs: run-android-tests
 
     steps:
-      - name: Download Unit test report
+#      - name: Download Unit test report
       - uses: actions/download-artifact@v3
         with:
           name: Unit-Test-Reports
