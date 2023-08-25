@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      output1: ${{ steps.jobstatus.outputs.result }}
+      jobstatus: ${{ steps.savedJobstatus.outputs.result }}
 
     steps:
       - name: Checkout
@@ -65,7 +65,7 @@ jobs:
 #          script: ./gradlew connectedCheck --stacktrace
 
       # Save job status
-      - id: jobstatus
+      - id: savedJobstatus
         run: |
           currentJobStatus=${{ job.status }}
           echo "result=$currentJobStatus" >> $GITHUB_OUTPUT
@@ -95,8 +95,8 @@ jobs:
         if: always()
         env:
           SLACK_CHANNEL: espresso-testruns
-          SLACK_COLOR: ${{ needs.run-android-tests.outputs.output1 }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_COLOR: ${{ needs.run-android-tests.outputs.jobstatus }}
           SLACK_TITLE: Android Tests results
-          SLACK_MESSAGE: ${{ needs.run-android-tests.outputs.output1 }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_MESSAGE: ${{ needs.run-android-tests.outputs.jobstatus }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SLACK_FOOTER: Latest UI Test Results - ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
