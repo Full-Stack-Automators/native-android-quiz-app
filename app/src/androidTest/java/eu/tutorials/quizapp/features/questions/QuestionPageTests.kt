@@ -18,7 +18,7 @@ class QuestionPageTests {
     private val questionPageActions = QuestionPageActions()
 
     @Test
-    fun testArgentinaQuestionIsDisplayed() {
+    fun MA_T1_testArgentinaQuestionIsDisplayed() {
         val argentina = Question.argentina
 
         welcomePageActions.navigateToQuestions()

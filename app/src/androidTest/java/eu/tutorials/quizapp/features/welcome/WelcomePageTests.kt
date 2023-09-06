@@ -17,14 +17,18 @@ class WelcomePageTests {
     private val welcomePageActions = WelcomePageActions()
 
     @Test
-    fun testWelcomePageIsDisplayed() {
+    fun MA_T2_testNameIsNeededToContinue() {
         val validData = Welcome.validData
 
-        welcomePageActions.assertWelcomePageIsDisplayed(validData)
+        welcomePageActions.apply{
+            assertNameIsEmpty()
+            pressStartButton()
+            assertWelcomePageIsDisplayed(validData)
+        }
     }
 
     @Test
-    fun testEnterValidName() {
+    fun MA_T3_testEnterValidName() {
         val validUserData = Accounts.validName
 
         welcomePageActions.apply {
@@ -34,13 +38,9 @@ class WelcomePageTests {
     }
 
     @Test
-    fun testNameIsNeededToContinue() {
+    fun MA_T4_testWelcomePageIsDisplayed() {
         val validData = Welcome.validData
 
-        welcomePageActions.apply{
-            assertNameIsEmpty()
-            pressStartButton()
-            assertWelcomePageIsDisplayed(validData)
-        }
+        welcomePageActions.assertWelcomePageIsDisplayed(validData)
     }
 }
