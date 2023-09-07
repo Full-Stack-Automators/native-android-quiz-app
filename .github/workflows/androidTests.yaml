@@ -143,7 +143,7 @@ jobs:
         run: |
           zephyrBaseUrl="https://api.zephyrscale.smartbear.com/v2/automations/executions"
           projectKey="MA"
-          xmlPath="app/build/outputs/androidTests-results/connected"
+          xmlPath="app/build/outputs/androidTests-results/connected/TEST-test(AVD) - 12-app-.xml"
           autoCreateTestCases="true"
           echo "Uploading test results to Zephyr Scale..."
           curl -H "Authorization: Bearer ${{ secrets.JIRA_ZEPHYR_SCALE_BEARER_TOKEN }}" -F "file=$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"
