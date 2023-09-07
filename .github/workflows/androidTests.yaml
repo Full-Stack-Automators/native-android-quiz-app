@@ -117,7 +117,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: XML-Test-Report
-          path: app/build/outputs/androidTest-results/connected
+          path: app/build/outputs/androidTests-results/connected/TEST-test(AVD) - 12-app-.xml
 
       # Push test results to external parties
       - name: Deploy Test Results to Github pages 🚀
