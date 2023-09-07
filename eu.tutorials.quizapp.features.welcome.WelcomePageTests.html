@@ -28,13 +28,13 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">3</div>
+<div class="counter">1</div>
 <p>failures</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">38.137s</div>
+<div class="counter">18.261s</div>
 <p>duration</p>
 </div>
 </td>
@@ -44,7 +44,7 @@
 </td>
 <td>
 <div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="percent">66%</div>
 <p>successful</p>
 </div>
 </td>
@@ -63,68 +63,15 @@
 <div id="tab0" class="tab">
 <h2>Failed tests</h2>
 <div class="test">
-<a name="MA_T2_testNameIsNeededToContinue"></a>
-<h3 class="failures">MA_T2_testNameIsNeededToContinue</h3>
-<span class="code">
-<pre>androidx.test.espresso.base.RootViewPicker$RootViewWithoutFocusException: Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Root:
-Root{application-window-token=android.view.ViewRootImpl$W@95554c9, window-token=android.view.ViewRootImpl$W@95554c9, has-window-focus=false, layout-params-type=1, layout-params-string={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
-fl=LAYOUT_IN_SCREEN FULLSCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
-pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED
-bhv=DEFAULT
-fitSides=}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=320, height=640, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, layout-params={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
-fl=LAYOUT_IN_SCREEN FULLSCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
-pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED
-bhv=DEFAULT
-fitSides=}, tag=null, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at dalvik.system.VMStack.getThreadStackTrace(Native Method)
-at java.lang.Thread.getStackTrace(Thread.java:1724)
-at androidx.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:12)
-at androidx.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:7)
-at androidx.test.espresso.ViewInteraction.waitForAndHandleInteractionResults(ViewInteraction.java:8)
-at androidx.test.espresso.ViewInteraction.check(ViewInteraction.java:12)
-at eu.tutorials.quizapp.framework.actions.EspressoAssertions.assertElementIsEmpty(EspressoAssertions.kt:22)
-at eu.tutorials.quizapp.features.welcome.WelcomePageActions.assertNameIsEmpty(WelcomePageActions.kt:33)
-at eu.tutorials.quizapp.features.welcome.WelcomePageTests.MA_T2_testNameIsNeededToContinue(WelcomePageTests.kt:24)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="MA_T3_testEnterValidName"></a>
-<h3 class="failures">MA_T3_testEnterValidName</h3>
-<span class="code">
-<pre>androidx.test.espresso.base.RootViewPicker$RootViewWithoutFocusException: Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Root:
-Root{application-window-token=android.view.ViewRootImpl$W@9ddaa08, window-token=android.view.ViewRootImpl$W@9ddaa08, has-window-focus=false, layout-params-type=1, layout-params-string={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
-fl=LAYOUT_IN_SCREEN FULLSCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
-pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED
-bhv=DEFAULT
-fitSides=}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=320, height=640, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, layout-params={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
-fl=LAYOUT_IN_SCREEN FULLSCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
-pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED
-bhv=DEFAULT
-fitSides=}, tag=null, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}
-at dalvik.system.VMStack.getThreadStackTrace(Native Method)
-at java.lang.Thread.getStackTrace(Thread.java:1724)
-at androidx.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:12)
-at androidx.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:7)
-at androidx.test.espresso.ViewInteraction.waitForAndHandleInteractionResults(ViewInteraction.java:8)
-at androidx.test.espresso.ViewInteraction.desugaredPerform(ViewInteraction.java:11)
-at androidx.test.espresso.ViewInteraction.perform(ViewInteraction.java:4)
-at eu.tutorials.quizapp.framework.actions.EspressoTouch.typeText(EspressoTouch.kt:11)
-at eu.tutorials.quizapp.features.welcome.WelcomePageActions.enterName(WelcomePageActions.kt:37)
-at eu.tutorials.quizapp.features.welcome.WelcomePageTests.MA_T3_testEnterValidName(WelcomePageTests.kt:35)
-</pre>
-</span>
-</div>
-<div class="test">
 <a name="MA_T4_testWelcomePageIsDisplayed"></a>
 <h3 class="failures">MA_T4_testWelcomePageIsDisplayed</h3>
 <span class="code">
 <pre>androidx.test.espresso.base.RootViewPicker$RootViewWithoutFocusException: Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Root:
-Root{application-window-token=android.view.ViewRootImpl$W@e38a90c, window-token=android.view.ViewRootImpl$W@e38a90c, has-window-focus=false, layout-params-type=1, layout-params-string={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
+Root{application-window-token=android.view.ViewRootImpl$W@1a3f9cc, window-token=android.view.ViewRootImpl$W@1a3f9cc, has-window-focus=false, layout-params-type=1, layout-params-string={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
 fl=LAYOUT_IN_SCREEN FULLSCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
 pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED
 bhv=DEFAULT
-fitSides=}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=320, height=640, has-focus=true, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, layout-params={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
+fitSides=}, decor-view-string=DecorView{id=-1, visibility=INVISIBLE, width=320, height=640, has-focus=true, has-focusable=false, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, layout-params={(0,0)(fillxfill) sim={forwardNavigation} ty=BASE_APPLICATION wanim=0x10302fe
 fl=LAYOUT_IN_SCREEN FULLSCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
 pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED
 bhv=DEFAULT
@@ -153,22 +100,22 @@ at eu.tutorials.quizapp.features.welcome.WelcomePageTests.MA_T4_testWelcomePageI
 </thead>
 <tr>
 <td>MA_T2_testNameIsNeededToContinue</td>
-<td class="failures">failed (12.459s)</td>
+<td class="success">passed (2.947s)</td>
 </tr>
 <tr>
 <td>MA_T3_testEnterValidName</td>
-<td class="failures">failed (11.644s)</td>
+<td class="success">passed (2.314s)</td>
 </tr>
 <tr>
 <td>MA_T4_testWelcomePageIsDisplayed</td>
-<td class="failures">failed (14.034s)</td>
+<td class="failures">failed (13.000s)</td>
 </tr>
 </table>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 7.0.2</a> at Sep 7, 2023, 11:55:54 AM</p>
+<a href="http://www.gradle.org">Gradle 7.0.2</a> at Sep 7, 2023, 12:38:36 PM</p>
 </div>
 </div>
 </body>
