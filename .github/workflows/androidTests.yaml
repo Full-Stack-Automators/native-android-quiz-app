@@ -84,13 +84,6 @@ jobs:
           name: UI-Test-Report
           path: app/build/reports/androidTests/connected
 
-      - name: Upload Unit Test Reports
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: Unit-Test-Report
-          path: app/build/reports/tests
-
       - name: Upload XML Reports
         uses: actions/upload-artifact@v3
         if: always()
@@ -143,7 +136,14 @@ jobs:
         run: |
           zephyrBaseUrl="https://api.zephyrscale.smartbear.com/v2/automations/executions"
           projectKey="MA"
-          xmlPath="app/build/outputs/androidTests-results/connected/TEST-test(AVD) - 12-app-.xml"
+          xmlPath="app/build/outputs/androidTest-results/connected/TEST-test(AVD) - 12-app-.xml"
           autoCreateTestCases="true"
           echo "Uploading test results to Zephyr Scale..."
           curl -H "Authorization: Bearer ${{ secrets.JIRA_ZEPHYR_SCALE_BEARER_TOKEN }}" -F "file=$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"
+
+      - name: DEBUG Results to Zephyr Scale 🚀
+          if: always()
+          run: |
+            cd app/build/outputs/androidTests-results/connected/
+            ls
+            pwd
