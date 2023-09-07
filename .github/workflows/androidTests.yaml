@@ -75,21 +75,21 @@ jobs:
         if: always()
         with:
           name: Unit-Test-Report
-          path: app/build/reports/tests
+          path: ${{ vars.ESPRESSO_UNIT_TEST_RESULT_PATH }}
 
       - name: Upload UI Test Reports
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: UI-Test-Report
-          path: app/build/reports/androidTests/connected
+          path: ${{ vars.ESPRESSO_UI_TEST_RESULT_PATH }}
 
       - name: Upload XML Reports
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: XML-Test-Report
-          path: app/build/outputs/androidTest-results/connected
+          path: ${{ vars.ESPRESSO_XML_TEST_RESULT_PATH }}
 
 
   publish-android-test-results:
@@ -105,19 +105,19 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: UI-Test-Report
-          path: app/build/reports/androidTests/connected
+          path: ${{ vars.ESPRESSO_UI_TEST_RESULT_PATH }}
 
       - uses: actions/download-artifact@v3
         with:
           name: XML-Test-Report
-          path: app/build/outputs/androidTest-results/connected
+          path: ${{ vars.ESPRESSO_XML_TEST_RESULT_PATH }}
 
       # Push test results to external parties
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
         with:
-          folder: app/build/reports/androidTests/connected
+          folder: ${{ vars.ESPRESSO_UI_TEST_RESULT_PATH }}
           branch: github-pages # Branch name to deploy pages
 
       - name: Post Android Test results to Slack channel (espresso-testruns)
@@ -136,7 +136,7 @@ jobs:
         run: |
           zephyrBaseUrl="https://api.zephyrscale.smartbear.com/v2/automations/executions"
           projectKey="MA"
-          xmlPath="app/build/outputs/androidTest-results/connected/TEST-test(AVD) - 12-app-.xml"
+          xmlPath="${{ vars.ESPRESSO_XML_TEST_RESULT_PATH }}/TEST-test(AVD) - 12-app-.xml"
           autoCreateTestCases="true"
           echo "Uploading test results to Zephyr Scale..."
           curl -H "Authorization: Bearer ${{ secrets.JIRA_ZEPHYR_SCALE_BEARER_TOKEN }}" -F "file=@$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"
