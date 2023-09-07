@@ -110,7 +110,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: XML-Test-Report
-          path: app/build/outputs/androidTests-results/connected/TEST-test(AVD) - 12-app-.xml
+          path: app/build/outputs/androidTest-results/connected
 
       # Push test results to external parties
       - name: Deploy Test Results to Github pages 🚀
@@ -140,6 +140,3 @@ jobs:
           autoCreateTestCases="true"
           echo "Uploading test results to Zephyr Scale..."
           curl -H "Authorization: Bearer ${{ secrets.JIRA_ZEPHYR_SCALE_BEARER_TOKEN }}" -F "file=$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"
-          echo $xmlPath
-          cd $xmlPath
-          ls
