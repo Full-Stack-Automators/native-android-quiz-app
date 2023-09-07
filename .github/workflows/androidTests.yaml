@@ -84,6 +84,21 @@ jobs:
           name: UI-Test-Report
           path: app/build/reports/androidTests/connected
 
+      - name: Upload Unit Test Reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Unit-Test-Report
+          path: app/build/reports/tests
+
+      - name: Upload XML Reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: XML-Test-Report
+          path: app/build/outputs/androidTest-results/connected
+
+
   publish-android-test-results:
     if: always()
     runs-on: ubuntu-latest
@@ -93,11 +108,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # Download test results
       - uses: actions/download-artifact@v3
         with:
           name: UI-Test-Report
           path: app/build/reports/androidTests/connected
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: XML-Test-Report
+          path: app/build/outputs/androidTest-results/connected
+
+      # Push test results to external parties
       - name: Deploy Test Results to Github pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
@@ -115,3 +137,13 @@ jobs:
           SLACK_MESSAGE: ${{ needs.run-android-tests.outputs.jobstatus }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SLACK_FOOTER: Latest UI Test Results - ${{ vars.ESPRESSO_TEST_RESULTS_URL }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Deploy Test Results to Zephyr Scale 🚀
+        if: always()
+        run: |
+          zephyrBaseUrl="https://api.zephyrscale.smartbear.com/v2/automations/executions"
+          projectKey="MA"
+          xmlPath="app/build/outputs/androidTests-results/connected"
+          autoCreateTestCases="true"
+          echo "Uploading test results to Zephyr Scale..."
+          curl -H "Authorization: Bearer ${{ secrets.JIRA_ZEPHYR_SCALE_BEARER_TOKEN }}" -F "file=$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"

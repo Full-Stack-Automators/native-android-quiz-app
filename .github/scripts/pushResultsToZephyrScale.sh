@@ -27,4 +27,3 @@ autoCreateTestCases="true"
 #######################################################################
 echo "Uploading test results to Zephyr Scale..."
 curl -H "Authorization: Bearer $bearerToken" -F "file=$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"
-echo "\nTest results uploaded successfully"
