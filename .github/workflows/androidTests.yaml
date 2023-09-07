@@ -142,7 +142,6 @@ jobs:
           curl -H "Authorization: Bearer ${{ secrets.JIRA_ZEPHYR_SCALE_BEARER_TOKEN }}" -F "file=$xmlPath;type=application/xml" "$zephyrBaseUrl/junit?projectKey=$projectKey&autoCreateTestCases=$autoCreateTestCases"
 
       - name: DEBUG Results to Zephyr Scale 🚀
-          if: always()
           run: |
             cd app/build/outputs/androidTests-results/connected/
             ls
