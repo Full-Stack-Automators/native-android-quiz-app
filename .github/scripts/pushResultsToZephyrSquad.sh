@@ -1,4 +1,3 @@
-
 ######################################################################
 #  This .sh file demonstrates how to create or update an automation task in Zephyr for Jira Cloud, run this task, and publish test results to Zephyr.
 #  Author: SmartBear Software
@@ -27,7 +26,7 @@ accountId="712020:f174fdf6-ece7-45e4-abbd-b458e007e7de"
 #######################################################################
 echo "Generating a JSOM Web Token ... \n"
 curl -o headers -s -d '{  "accessKey": "'"$accessKey"'"  , "secretKey": "'"$secretKey"'" ,"accountId": "'"$accountId"'","zephyrBaseUrl": "'"$zephyrBaseUrl"'","expirationTime":360000}' -H "Content-Type: application/json" -XPOST https://prod-vortexapi.zephyr4jiracloud.com/api/v1/jwt/generate
-jwt="$(cat  headers | head -n 1)"
+jwt="$(cat headers | head -n 1)"
 echo "The generated token: \n"
 echo $jwt
 
@@ -37,15 +36,15 @@ echo $jwt
 #######################################################################
 
 # Task info
-taskName="My task"
-taskDescription="Task description"
-automationFramework="junit"
+jobName="Android UI Tests"
+jobDescription="Running Android UI Automation tests"
+automationFramework="Junit"
 projectKey="ZT"
 versionName="Unscheduled"
 
 # Cycle info
-cycleName="true"
-createNewCycle="true"
+cycleName="EspressoTests"
+createNewCycle="false"
 appendDateTimeInCycleName="false"
 
 # Folder info
@@ -53,17 +52,19 @@ folderName="RegressionTests"
 createNewFolder="true"
 appendDateTimeInFolderName="true"
 assigneeUser="712020:f174fdf6-ece7-45e4-abbd-b458e007e7de"
+mandatoryFields="{\"reporter\":{\"label\":\"Jace Parara\",\"name\":\"Jace Parara\",
+                \"id\":\"712020:f174fdf6-ece7-45e4-abbd-b458e007e7de\"}}"
 
 # Name of the test result file
-resultPath="@//Users/Jace/repo/native-android-quiz-app/app/build/outputs/androidTest-results/connected/TEST-Pixel_6_API_33.xml"
+resultPath="@//Users/Jace/repo/native-android-quiz-app/app/build/outputs/androidTest-results/connected/TEST-Copy_of_Pixel_6_API_31(AVD) - 12-app-.xml"
 
 #######################################################################
 #  Create an automation task, run it, send test results to Zephyr.
 #  Keep this section as it is.
 #######################################################################
 echo "Creating and running an automation task ..."
-curl -o headers -s -v -H "accessKey: $accessKey" -H "jwt: $jwt" -H "Content-Type: multipart/form-data" -H "Content-Type: application/json" -F "jobName=$taskName" -F "jobDescription=$taskDescription" -F "automationFramework=$automationFramework" -F "projectKey=$projectKey" -F "versionName=$versionName" -F "cycleName=$cycleName" -F "createNewCycle=$createNewCycle" -F "appendDateTimeInCycleName=$appendDateTimeInCycleName" -F "folderName=$folderName" -F "createNewFolder=$createNewFolder" -F "appendDateTimeInFolderName=$appendDateTimeInFolderName" -F "assigneeUser=$assigneeUser" -F "file=$resultPath" -XPOST https://prod-vortexapi.zephyr4jiracloud.com/api/v1/automation/job/saveAndExecute
-result="$(cat  headers | head -n 1)"
+curl -o headers -s -v -H "accessKey: $accessKey" -H "jwt: $jwt" -H "Content-Type: multipart/form-data" -H "Content-Type: application/json" -F "jobName=$jobName" -F "jobDescription=$jobDescription" -F "automationFramework=$automationFramework" -F "projectKey=$projectKey" -F "versionName=$versionName" -F "cycleName=$cycleName" -F "createNewCycle=$createNewCycle" -F "appendDateTimeInCycleName=$appendDateTimeInCycleName" -F "folderName=$folderName" -F "createNewFolder=$createNewFolder" -F "appendDateTimeInFolderName=$appendDateTimeInFolderName" -F "assigneeUser=$assigneeUser" -F "file=$resultPath" -F "mandatoryFields=$mandatoryFields" -XPOST https://prod-vortexapi.zephyr4jiracloud.com/api/v1/automation/job/saveAndExecute
+result="$(cat headers | head -n 1)"
 echo "Test results: \n"
 echo $result
-# END of the "Create task" code
+
