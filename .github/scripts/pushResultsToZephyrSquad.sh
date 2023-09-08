@@ -56,7 +56,7 @@ mandatoryFields="{\"reporter\":{\"label\":\"Jace Parara\",\"name\":\"Jace Parara
                 \"id\":\"712020:f174fdf6-ece7-45e4-abbd-b458e007e7de\"}}"
 
 # Name of the test result file
-resultPath="@//Users/Jace/repo/native-android-quiz-app/app/build/outputs/androidTest-results/connected/TEST-Copy_of_Pixel_6_API_31(AVD) - 12-app-.xml"
+resultPath="@//$HOME/repo/native-android-quiz-app/app/build/outputs/androidTest-results/connected/TEST-Copy_of_Pixel_6_API_31(AVD) - 12-app-.xml"
 
 #######################################################################
 #  Create an automation task, run it, send test results to Zephyr.
@@ -67,4 +67,3 @@ curl -o headers -s -v -H "accessKey: $accessKey" -H "jwt: $jwt" -H "Content-Type
 result="$(cat headers | head -n 1)"
 echo "Test results: \n"
 echo $result
-

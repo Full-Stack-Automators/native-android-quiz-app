@@ -18,7 +18,7 @@ bearerToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOi
 #######################################################################
 
 projectKey="MA"
-xmlPath="@//Users/Jace/repo/native-android-quiz-app/app/build/outputs/androidTest-results/connected/TEST-Copy_of_Pixel_6_API_31(AVD) - 12-app-.xml"
+xmlPath="@//$HOME/repo/native-android-quiz-app/app/build/outputs/androidTest-results/connected/TEST-Copy_of_Pixel_6_API_31(AVD) - 12-app-.xml"
 autoCreateTestCases="true"
 
 #######################################################################
